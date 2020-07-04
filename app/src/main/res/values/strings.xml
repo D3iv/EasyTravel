@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">EasyTravel</string>
+    <string name="sign_out">SIGN OUT</string>
+    <string-array name="choices_spinner">
+        <item>Acccount</item>
+        <item>About</item>
+    </string-array>
+    <string name="hello_blank_activity">
+        Il percorso di studio intrapreso sino ad ora mi ha
+        insegnato 3 concetti fondamentali:
+        l\'analisi, la progettazione e l\'implementazione
+         di uno strumento nella risoluzione di un qualsiasi problema.
+        Questa applicazione é nata dall\'idea di migliorare
+        ed arricchire l\'esperienza di viaggio per coloro
+        i quali sono spesso poco attrezzati per questa tipologia
+        di esperienza.
+
+        EasyTravel, marchio registrato
+
+    </string>
+</resources>

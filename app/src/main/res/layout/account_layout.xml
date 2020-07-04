@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:layout_width="409dp"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/accountImage_Viewer"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:civ_border_width="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <Button
+                android:id="@+id/changeImage_Button"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="0dp"
+                android:icon="@drawable/pencil"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.079"
+                app:layout_constraintStart_toEndOf="@+id/changeImage_View"
+                app:layout_constraintTop_toBottomOf="@id/accountImage_Viewer"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/userName_placeholder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="username:"
+                app:layout_constraintTop_toBottomOf="@+id/changeImage_View"
+                tools:layout_editor_absoluteX="16dp"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/username_EditText"
+                android:layout_width="284dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_editext_login"
+                android:paddingLeft="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/userName_placeholder"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="300dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="50dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.454"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/username_EditText" />
+
+            <TextView
+                android:id="@+id/mail_placeholder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="e-mail:"
+                app:layout_constraintTop_toBottomOf="@+id/view"
+                tools:layout_editor_absoluteX="19dp"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/mail_EditText"
+                android:layout_width="284dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_editext_login"
+                android:paddingLeft="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/mail_placeholder"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="300dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="50dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.454"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mail_EditText" />
+
+            <TextView
+                android:id="@+id/password_placeholder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="oldest password:"
+                app:layout_constraintTop_toBottomOf="@+id/view3"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <EditText
+                android:id="@+id/oldpassword_EditText"
+                android:layout_width="284dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_editext_login"
+                app:layout_constraintTop_toBottomOf="@+id/password_placeholder"
+                tools:ignore="MissingConstraints"
+                android:paddingLeft="10dp"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <TextView
+                android:id="@+id/password_placeholder2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="new password:"
+                app:layout_constraintTop_toBottomOf="@+id/oldpassword_EditText"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <EditText
+                android:id="@+id/newPassword_EditText"
+                android:layout_width="284dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_editext_login"
+                android:paddingLeft="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/oldpassword_EditText"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <TextView
+                android:id="@+id/password_placeholder3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="confirm password:"
+                app:layout_constraintTop_toBottomOf="@+id/newPassword_EditText"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="16dp" />
+
+
+            <EditText
+                android:id="@+id/confirmPassword_EditText"
+                android:layout_width="284dp"
+                android:layout_height="28dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_editext_login"
+                android:paddingLeft="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/password_placeholder3"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="16dp" />
+
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rounded_button"
+                android:text="Salva"
+                app:layout_constraintStart_toEndOf="@+id/changeImage_View"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
