@@ -36,9 +36,10 @@ class DeleteActivity : AppCompatActivity() {
                                 RTuser.removeValue().addOnCompleteListener {
                                     if(task.isSuccessful){
                                         Toast.makeText(this,"Record deleted",Toast.LENGTH_LONG).show()
+                                    }else{
+                                        Toast.makeText(this,"Record not deleted",Toast.LENGTH_LONG).show()
                                     }
                                 }
-
                                 
                                 Toast.makeText(this, "Account deleted", Toast.LENGTH_LONG).show()
                                 val intentRegistration =
