@@ -33,7 +33,7 @@ class DeleteActivity : AppCompatActivity() {
                                 val userId = FirebaseAuth.getInstance().uid
                                 val RTuser = FirebaseDatabase.getInstance().getReference("/users").child("$userId")
 
-                                RTuser.removeValue().addOnCompleteListener {
+                                RTuser.setValue(null).addOnCompleteListener {
                                     if(task.isSuccessful){
                                         Toast.makeText(this,"Record deleted",Toast.LENGTH_LONG).show()
                                     }else{
