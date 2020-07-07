@@ -96,7 +96,7 @@ class ChangeActivity : AppCompatActivity() {
         if(oldpassword_EditText.text.isNotEmpty() &&
             newPassword_EditText.text.isNotEmpty() &&
             confirmPassword_EditText.text.isNotEmpty()){
-            if(newPassword_EditText.text.toString().equals(confirmPassword_EditText.text.toString())){
+            if(newPassword_EditText.text.toString() == confirmPassword_EditText.text.toString()){
                 if(user != null && user.email != null) {
                     val credential = EmailAuthProvider
                         .getCredential(user.email!!,oldpassword_EditText.text.toString())
