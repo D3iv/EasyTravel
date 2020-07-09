@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity"
     android:padding="10dp">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="50dp"
+        android:scrollbars="vertical"
+        android:id="@+id/listView_recyclerView"
+        android:layout_width="409dp"
+        android:layout_height="570dp"
+        android:layout_marginTop="52dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.157"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchText" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_view"
+        tools:ignore="MissingClass" />
 
     <EditText
-        android:id="@+id/searchText"
-        android:layout_width="300dp"
+        android:id="@+id/editText_view"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Cerca la tua meta qui..."
-        android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="30dp" />
+        android:layout_marginTop="40dp"
+        android:hint="Cerca qui la tua meta..."
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

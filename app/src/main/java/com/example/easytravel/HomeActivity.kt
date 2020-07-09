@@ -1,14 +1,16 @@
 package com.example.easytravel
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.AttributeSet
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.widget.*
+import android.view.*
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerAdapter
@@ -16,30 +18,17 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_account.*
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.list_layout.*
 import kotlinx.android.synthetic.main.list_layout.view.*
-import kotlin.collections.ArrayList
 import kotlin.jvm.java as java
 
 class HomeActivity : AppCompatActivity() {
-
-    lateinit var mySearchText: EditText
-    lateinit var myRecyclerView: RecyclerView
-
-    lateinit var myDatabase: DatabaseReference
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-
-        myDatabase= FirebaseDatabase.getInstance().getReference("cities")
-
-        myRecyclerView.setHasFixedSize(true)
-        myRecyclerView.layoutManager = LinearLayoutManager(this)
-        loadFirebaseData()
-
 
         val uid = FirebaseAuth.getInstance().uid
 
@@ -48,7 +37,7 @@ class HomeActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intentReg)
         }
-
+        fetchData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -57,46 +46,52 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.menu_sign_out ->{
+        when (item.itemId) {
+            R.id.menu_sign_out -> {
                 FirebaseAuth.getInstance().signOut()
-                val intentReg = Intent(this,RegistrationActivity::class.java)
+                val intentReg = Intent(this, RegistrationActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intentReg)
             }
-            R.id.account_option->{
-                val intentOptions = Intent(this,AccountActivity::class.java)
+            R.id.account_option -> {
+                val intentOptions = Intent(this, AccountActivity::class.java)
                 startActivity(intentOptions)
             }
-            R.id.about_option->{
-                val intentAbout = Intent(this,AboutActivity::class.java)
+            R.id.about_option -> {
+                val intentAbout = Intent(this, AboutActivity::class.java)
                 startActivity(intentAbout)
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun loadFirebaseData(){
-        val options= FirebaseRecyclerOptions.
-        Builder<City>().setQuery(myDatabase,City::class.java).build()
-
-        val firebaseRecyclerAdapter = object: FirebaseRecyclerAdapter<City,CityViewHolder>(options){
-            override fun onBindViewHolder(holder: CityViewHolder, position: Int, model: City) {
-                holder.myView.city_textView.text = model.name
-                holder.myView.desc_textView.text= model.region
-                Picasso.get().load(model.urlPhoto).into(cityPic_View)
+    private fun fetchData(){
+        val ref = FirebaseDatabase.getInstance().getReference("/city")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@HomeActivity,"ERROR:${error}",Toast.LENGTH_LONG).show()
             }
 
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
-                TODO("Do nothing")
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val adapter = GroupAdapter<ViewHolder>()
+                //new entry for city
+                snapshot.children.forEach{
+                    Log.d(HomeActivity::class.java.name, it.toString())
+                    val city = it.getValue(City::class.java)
+                    if(city != null) {
+                        adapter.add(MyAdapter(city))
+                    }
+                }
+                //Click on items to see details
+                adapter.setOnItemClickListener{item, view ->
+                    val MyAdapter = item as MyAdapter
+                    val intent = Intent(view.context,CityDetails::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                listView_recyclerView.adapter= adapter
             }
 
-        }
-
-        myRecyclerView.adapter= firebaseRecyclerAdapter
-    }
-
-    class CityViewHolder(var myView: View): RecyclerView.ViewHolder(myView){
-
+        })
     }
 }
