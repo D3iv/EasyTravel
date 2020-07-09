@@ -111,6 +111,7 @@ class ChangeActivity : AppCompatActivity() {
                                         }
                                     }
                                 Toast.makeText(this, "Re-authentication success", Toast.LENGTH_LONG).show()
+                                finish()
                             }else{
                                 Toast.makeText(this, "Re-authentication failed ", Toast.LENGTH_LONG).show()
                             }

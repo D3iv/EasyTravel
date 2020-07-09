@@ -43,7 +43,7 @@ class AccountActivity : AppCompatActivity() {
         }
     }
 
-    /**Fetch the user from DB and show attribute
+    /**Fetch the user from DB and show attributes
      * userId: identifier of the client
      *
       */

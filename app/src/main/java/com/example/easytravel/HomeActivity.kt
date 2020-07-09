@@ -65,6 +65,10 @@ class HomeActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    companion object{
+        val USER_KEY = "USER_KEY"
+    }
+
     private fun fetchData(){
         val ref = FirebaseDatabase.getInstance().getReference("/city")
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
@@ -84,10 +88,10 @@ class HomeActivity : AppCompatActivity() {
                 }
                 //Click on items to see details
                 adapter.setOnItemClickListener{item, view ->
-                    val MyAdapter = item as MyAdapter
+                    val myAdapter = item as MyAdapter
                     val intent = Intent(view.context,CityDetails::class.java)
+                    intent.putExtra(USER_KEY,myAdapter.city)
                     startActivity(intent)
-                    finish()
                 }
                 listView_recyclerView.adapter= adapter
             }

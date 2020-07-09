@@ -1,5 +1,10 @@
 package com.example.easytravel
 
-class City(val name:String, val region: String, val urlPhoto: String) {
-    constructor(): this("","","")
+import android.os.ParcelFileDescriptor
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+class City(val name:String, val region: String, val urlPhoto: String, val country: String, val desc: String): Parcelable {
+    constructor(): this("","","","","")
 }

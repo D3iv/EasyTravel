@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_city_details.*
 import kotlinx.android.synthetic.main.activity_delete.*
 
 class DeleteActivity : AppCompatActivity() {
@@ -36,6 +37,7 @@ class DeleteActivity : AppCompatActivity() {
                                 RTuser.setValue(null).addOnCompleteListener {
                                     if(task.isSuccessful){
                                         Toast.makeText(this,"Record deleted",Toast.LENGTH_LONG).show()
+                                        finish()
                                     }else{
                                         Toast.makeText(this,"Record not deleted",Toast.LENGTH_LONG).show()
                                     }

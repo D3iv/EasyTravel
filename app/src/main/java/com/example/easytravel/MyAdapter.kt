@@ -6,7 +6,7 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_home.view.*
 import kotlinx.android.synthetic.main.list_layout.view.*
 
-class MyAdapter(private val city:City): Item<ViewHolder>()  {
+class MyAdapter(val city:City): Item<ViewHolder>()  {
     override fun getLayout(): Int{
         //return layout of the list of cities
         return R.layout.list_layout
