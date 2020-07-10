@@ -8,7 +8,6 @@
     android:padding="10dp">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:scrollbars="vertical"
         android:id="@+id/listView_recyclerView"
         android:layout_width="409dp"
         android:layout_height="570dp"
@@ -17,7 +16,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_view"
-        tools:ignore="MissingClass" />
+        tools:ignore="MissingClass" >
+    </androidx.recyclerview.widget.RecyclerView>
 
     <EditText
         android:id="@+id/editText_view"

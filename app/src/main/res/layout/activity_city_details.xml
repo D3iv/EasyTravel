@@ -32,12 +32,12 @@
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"/>
 
-            
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-        
+
     </com.google.android.material.appbar.AppBarLayout>
-    
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/map_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/mappa"
@@ -47,20 +47,113 @@
         android:layout_marginEnd="32dp"/>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/descritpion_scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/description_textView"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_blank_activity"
-            android:textSize="20sp"
-            android:lineSpacingExtra="8sp"
-            android:padding="16dp"/>
+            android:layout_height="match_parent"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/mr_cast_meta_black_scrim"
+                    android:text="Note"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:padding="12dp"
+                    android:layout_marginTop="12dp"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/description_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:padding="12dp"
+                    android:text="Piatti tipici"
+                    android:textColor="@color/mr_cast_meta_black_scrim"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/meals_RecyclerView"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </androidx.recyclerview.widget.RecyclerView>
+                </ScrollView>
+            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:padding="12dp"
+                        android:text="Luoghi d'interesse"
+                        android:textColor="@color/mr_cast_meta_black_scrim"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/touristSites_RecyclerView"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                        </androidx.recyclerview.widget.RecyclerView>
+                    </ScrollView>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </androidx.core.widget.NestedScrollView>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

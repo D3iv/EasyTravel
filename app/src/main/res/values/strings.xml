@@ -18,4 +18,6 @@
         EasyTravel, marchio registrato
 
     </string>
+    <string name="maps_api_key"></string>
+    <string name="title_activity_maps">Map</string>
 </resources>
