@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.tourist_sites_layout.view.*
 
 class MytouristSitesAdapter(val touristSites: TouristSites): Item<ViewHolder>(){
     override fun getLayout(): Int {
-        return R.layout.tourist_sites_layout
+        return R.layout.activity_sites_details
     }
 
     override fun bind(viewHolder: ViewHolder, position: Int) {

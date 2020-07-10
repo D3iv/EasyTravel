@@ -80,7 +80,6 @@ class HomeActivity : AppCompatActivity() {
                 val adapter = GroupAdapter<ViewHolder>()
                 //new entry for city
                 snapshot.children.forEach{
-                    Log.d(HomeActivity::class.java.name, it.toString())
                     val city = it.getValue(City::class.java)
                     if(city != null) {
                         adapter.add(MyAdapter(city))

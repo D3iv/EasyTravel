@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.attribute_layout.view.*
 
 class MyMealsAdapter(val typicalMeal: TypicalMeal): Item<ViewHolder>() {
     override fun getLayout(): Int {
-        return R.layout.attribute_layout
+        return R.layout.activity_meal_details
     }
 
     override fun bind(viewHolder: ViewHolder, position: Int) {

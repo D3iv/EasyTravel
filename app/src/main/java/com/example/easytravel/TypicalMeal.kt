@@ -1,5 +1,9 @@
 package com.example.easytravel
 
-class TypicalMeal(val name:String,val descritpion:String,val photoUrl:String) {
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+class TypicalMeal(val name:String,val description:String,val photoUrl:String) : Parcelable {
     constructor(): this("","","")
 }

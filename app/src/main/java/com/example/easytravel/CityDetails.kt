@@ -14,6 +14,7 @@ import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
+import kotlin.jvm.java as java
 import kotlinx.android.synthetic.main.activity_city_details.*
 
 class CityDetails : AppCompatActivity() {
@@ -56,7 +57,6 @@ class CityDetails : AppCompatActivity() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 val adapter = GroupAdapter<ViewHolder>()
-                Log.d(CityDetails::class.java.name,snapshot.toString())
                 snapshot.children.forEach{
                     val touristSites = it.getValue(TouristSites::class.java)
                     if(touristSites!= null){
@@ -92,10 +92,10 @@ class CityDetails : AppCompatActivity() {
                 }
                 //Click on items to see details
                 adapter.setOnItemClickListener{item, view ->
-                    val myMealsAdapter = item as MyMealsAdapter
-                    val intentMeal = Intent(view.context,MealDetails::class.java)
-                    intentMeal.putExtra(ATTRIBUTE_KEY,myMealsAdapter.typicalMeal)
-                    startActivity(intentMeal)
+                    val myMealsAdapter=item as MyMealsAdapter
+                    val intent = Intent(view.context,MealDetails::class.java)
+                    intent.putExtra(ATTRIBUTE_KEY,myMealsAdapter.typicalMeal)
+                    startActivity(intent)
                 }
                 meals_RecyclerView.adapter= adapter
             }
