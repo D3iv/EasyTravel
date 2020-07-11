@@ -7,11 +7,11 @@ import kotlinx.android.synthetic.main.attribute_layout.view.*
 
 class MyMealsAdapter(val typicalMeal: TypicalMeal): Item<ViewHolder>() {
     override fun getLayout(): Int {
-        return R.layout.activity_meal_details
+        return R.layout.attribute_layout
     }
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
-       viewHolder.itemView.mealName_textView.text= typicalMeal.name
+        viewHolder.itemView.mealName_textView.text= typicalMeal.name
         Picasso.get().load(typicalMeal.photoUrl).into(viewHolder.itemView.mealPic_view)
     }
 }

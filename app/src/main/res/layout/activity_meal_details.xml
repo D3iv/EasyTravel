@@ -75,24 +75,32 @@
             </LinearLayout>
              <RelativeLayout
                  android:layout_width="match_parent"
-                 android:layout_height="wrap_content"   >
+                 android:layout_height="wrap_content"
+                 android:padding="10dp">
                 <TextView
                     android:id="@+id/placeHolder"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textSize="20sp"
-                    android:text="Cerca indicazioni"/>
+                    android:text="Cerca ristorante dove mangiare: "/>
 
                  <ImageView
-                     android:layout_width="20dp"
-                     android:layout_height="30dp"
-                     android:layout_toRightOf="@id/placeHolder"
-                     android:layout_marginLeft="5dp"
-                     android:backgroundTint="@android:color/white"
-                     android:src="@drawable/mappa" />
-             </RelativeLayout>
-            </LinearLayout>
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentEnd="true"
+                     android:layout_marginLeft="20dp"
+                     android:layout_marginEnd="55dp"
+                     android:layout_toRightOf="@+id/placeHolder"
+                     android:src="@drawable/ic_baseline_map_24" />
 
+             </RelativeLayout>
+
+                <fragment
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
     </androidx.core.widget.NestedScrollView>

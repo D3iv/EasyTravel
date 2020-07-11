@@ -1,28 +1,16 @@
 package com.example.easytravel
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.AttributeSet
 import android.util.Log
 import android.view.*
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.firebase.ui.database.FirebaseRecyclerAdapter
-import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.list_layout.*
-import kotlinx.android.synthetic.main.list_layout.view.*
 import kotlin.jvm.java as java
 
 class HomeActivity : AppCompatActivity() {
@@ -38,6 +26,14 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intentReg)
         }
         fetchData()
+
+        search_button.setOnClickListener {
+            if(editText_view.text.toString() != ""){
+                searchCity(editText_view.text.toString())
+            }else{
+                Toast.makeText(this@HomeActivity,"Please enter field",Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -78,6 +74,36 @@ class HomeActivity : AppCompatActivity() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 val adapter = GroupAdapter<ViewHolder>()
+                //new entry for city
+                snapshot.children.forEach{
+                    val city = it.getValue(City::class.java)
+                    if(city != null) {
+                        adapter.add(MyAdapter(city))
+                    }
+                }
+                //Click on items to see details
+                adapter.setOnItemClickListener{item, view ->
+                    val myAdapter = item as MyAdapter
+                    val intent = Intent(view.context,CityDetails::class.java)
+                    intent.putExtra(USER_KEY,myAdapter.city)
+                    startActivity(intent)
+                }
+                listView_recyclerView.adapter= adapter
+            }
+
+        })
+    }
+
+    private fun searchCity(text: String) {
+        val ref = FirebaseDatabase.getInstance().getReference("/city").child("$text").equalTo(text)
+        ref.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@HomeActivity,"Oops..probably you insert an unkown value",Toast.LENGTH_LONG).show()
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val adapter = GroupAdapter<ViewHolder>()
+                Log.d(HomeActivity::class.java.name,snapshot.toString())
                 //new entry for city
                 snapshot.children.forEach{
                     val city = it.getValue(City::class.java)

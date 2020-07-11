@@ -26,7 +26,7 @@ import kotlin.random.Random
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     companion object{
-        private const val LOCATION_PERMISSION_REQUEST_CODE=1
+        const val LOCATION_PERMISSION_REQUEST_CODE=1
     }
     private lateinit var mMap: GoogleMap
     private var myLatitude : Double = 0.00
@@ -75,19 +75,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isCompassEnabled
         mMap.uiSettings.isZoomGesturesEnabled
 
-    }
-
-    private fun placeMarker(location: LatLng){
-        val markerOptions= MarkerOptions().position(location)
-        mMap.addMarker(markerOptions)
-    }
-
-    private fun setUpMap(){
-        if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION)
-            !=PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE)
-            return
-        }
     }
 }

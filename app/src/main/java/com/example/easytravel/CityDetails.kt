@@ -39,11 +39,8 @@ class CityDetails : AppCompatActivity() {
             intentMap.putExtra("cityName",cityName)
             startActivity(intentMap)
         }
-
         fetchCities(city)
-
     }
-
     companion object{
         val ATTRIBUTE_KEY = "ATTRIBUTE_KEY"
     }
@@ -68,6 +65,7 @@ class CityDetails : AppCompatActivity() {
                     val mytouristSitesAdapter = item as MytouristSitesAdapter
                     val intent = Intent(view.context,TouristSites::class.java)
                     intent.putExtra(ATTRIBUTE_KEY,mytouristSitesAdapter.touristSites)
+                    intent.putExtra("cityName",city.name )
                     startActivity(intent)
                 }
                 touristSites_RecyclerView.adapter=adapter
@@ -83,7 +81,7 @@ class CityDetails : AppCompatActivity() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 val adapter = GroupAdapter<ViewHolder>()
-                Log.d(CityDetails::class.java.name,snapshot.toString())
+                Log.d(CityDetails::class.java.name,"cakcasdasdada: "+snapshot.toString())
                 snapshot.children.forEach{
                     val typicalMeal = it.getValue(TypicalMeal::class.java)
                     if(typicalMeal!= null){
@@ -95,6 +93,7 @@ class CityDetails : AppCompatActivity() {
                     val myMealsAdapter=item as MyMealsAdapter
                     val intent = Intent(view.context,MealDetails::class.java)
                     intent.putExtra(ATTRIBUTE_KEY,myMealsAdapter.typicalMeal)
+                    intent.putExtra("cityName",city.name )
                     startActivity(intent)
                 }
                 meals_RecyclerView.adapter= adapter
