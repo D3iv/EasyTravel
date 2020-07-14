@@ -25,15 +25,42 @@ class HomeActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intentReg)
         }
-        fetchData()
-
         search_button.setOnClickListener {
-            if(editText_view.text.toString() != ""){
-                searchCity(editText_view.text.toString())
-            }else{
-                Toast.makeText(this@HomeActivity,"Please enter field",Toast.LENGTH_LONG).show()
+            if(search_editText.text != null) {
+                val cityName = search_editText.text.toString()
+                val ref = FirebaseDatabase.getInstance()
+                    .getReference("/city")
+                    .orderByChild("name").equalTo(cityName)
+                ref.addListenerForSingleValueEvent(object: ValueEventListener{
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(this@HomeActivity,"Nothing found",Toast.LENGTH_LONG).show()
+                    }
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val adapter = GroupAdapter<ViewHolder>()
+                        //new entry for city
+                        snapshot.children.forEach{
+                            val city = it.getValue(City::class.java)
+                            if(city != null) {
+                                adapter.add(MyAdapter(city))
+                            }
+                        }
+                        //Click on items to see details
+                        adapter.setOnItemClickListener{item, view ->
+                            val myAdapter = item as MyAdapter
+                            val intent = Intent(view.context,CityDetails::class.java)
+                            intent.putExtra(USER_KEY,myAdapter.city)
+                            startActivity(intent)
+                        }
+                        listView_recyclerView.adapter= adapter
+                    }
+                })
             }
         }
+
+        fetchData()
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

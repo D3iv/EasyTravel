@@ -45,7 +45,9 @@ class LoginActivity: AppCompatActivity() {
                 val intentHome= Intent(this,HomeActivity::class.java)
                 Toast.makeText(this,"Success",Toast.LENGTH_LONG).show()
                   //Do not turn back after registration success
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intentHome)
+                finish()
             }
             .addOnFailureListener{
                 Toast.makeText(this,"Error on Login: ${it.message}", Toast.LENGTH_LONG).show()

@@ -15,8 +15,17 @@
         android:roundIcon="@mipmap/ic_easytravel"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SitesDetails"></activity>
-        <activity android:name=".MealDetails" />
+        <activity android:name=".CommentMealsActivity"></activity>
+        <activity android:name=".SitesDetails">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
+        </activity>
+        <activity android:name=".MealDetails">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -31,14 +40,22 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
+        </activity>
         <activity android:name=".CityDetails">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
         </activity>
         <activity android:name=".DeleteActivity" />
-        <activity android:name=".ChangeActivity" />
+        <activity android:name=".ChangeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".AccountActivity" />
+        </activity>
         <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

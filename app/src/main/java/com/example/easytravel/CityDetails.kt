@@ -3,6 +3,7 @@ package com.example.easytravel
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.GoogleMap
@@ -22,7 +23,6 @@ class CityDetails : AppCompatActivity() {
     private lateinit var myMapView: MapView
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_city_details)
@@ -39,7 +39,18 @@ class CityDetails : AppCompatActivity() {
             intentMap.putExtra("cityName",cityName)
             startActivity(intentMap)
         }
+
         fetchCities(city)
+
+        meals_button.setOnClickListener{
+            meals_scrollView.fullScroll(R.id.meals_placeHolder);
+        }
+
+        sites_button.setOnClickListener{
+            sites_scrollView.fullScroll(R.id.sites_placeHolder);
+        }
+
+
     }
     companion object{
         val ATTRIBUTE_KEY = "ATTRIBUTE_KEY"
@@ -63,7 +74,7 @@ class CityDetails : AppCompatActivity() {
                 //Show Meals
                 adapter.setOnItemClickListener{item, view ->
                     val mytouristSitesAdapter = item as MytouristSitesAdapter
-                    val intent = Intent(view.context,TouristSites::class.java)
+                    val intent = Intent(view.context,SitesDetails::class.java)
                     intent.putExtra(ATTRIBUTE_KEY,mytouristSitesAdapter.touristSites)
                     intent.putExtra("cityName",city.name )
                     startActivity(intent)
@@ -81,7 +92,7 @@ class CityDetails : AppCompatActivity() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 val adapter = GroupAdapter<ViewHolder>()
-                Log.d(CityDetails::class.java.name,"cakcasdasdada: "+snapshot.toString())
+                Log.d(CityDetails::class.java.name,snapshot.toString())
                 snapshot.children.forEach{
                     val typicalMeal = it.getValue(TypicalMeal::class.java)
                     if(typicalMeal!= null){

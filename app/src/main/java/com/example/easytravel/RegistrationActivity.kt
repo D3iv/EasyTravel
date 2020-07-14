@@ -75,7 +75,6 @@ class RegistrationActivity : AppCompatActivity() {
             }
             .addOnFailureListener{
                 Toast.makeText(this, "Error on Registration: ${it.message}",Toast.LENGTH_LONG).show()
-
             }
     }
 
@@ -112,6 +111,7 @@ class RegistrationActivity : AppCompatActivity() {
                 //Do not turn back after registration success
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intentHome)
+                finish()
             }.addOnFailureListener{
                 Toast.makeText(this,"Failed to save user on DB", Toast.LENGTH_LONG).show()
             }

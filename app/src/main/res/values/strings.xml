@@ -20,4 +20,14 @@
     </string>
     <string name="maps_api_key"></string>
     <string name="title_activity_maps">Map</string>
+    <string name="delete_account">Vuoi cancellare l\'account?</string>
+    <string name="yes">SI</string>
+    <string name="no">NO</string>
+    <string name="search">Cerca la tua meta qui...</string>
+    <string name="add_comment">Commenta</string>
+    <string name="review_text">Recensioni degli utenti:</string>
+    <string name="rating">valutazione dell\' utente:</string>
+    <string name="hint_comment">Inserisci il tuo commento...</string>
+    <string name="hint_rate">inserisci la tua valutazione in una parola...</string>
+    <string name="publish_text">PUBBLICA</string>
 </resources>

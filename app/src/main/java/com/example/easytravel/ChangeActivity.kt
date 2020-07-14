@@ -3,26 +3,22 @@ package com.example.easytravel
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
-import com.google.firebase.auth.*
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.core.view.Change
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.account_layout.*
-import kotlinx.android.synthetic.main.account_layout.changeImage_Button
-import kotlinx.android.synthetic.main.account_layout.confirmPassword_EditText
-import kotlinx.android.synthetic.main.account_layout.mail_EditText
-import kotlinx.android.synthetic.main.account_layout.newPassword_EditText
-import kotlinx.android.synthetic.main.account_layout.oldpassword_EditText
-import kotlinx.android.synthetic.main.account_layout.save_button
-import kotlinx.android.synthetic.main.account_layout.username_EditText
 import java.util.*
 
 
@@ -44,11 +40,10 @@ class ChangeActivity : AppCompatActivity() {
         if (userId != null) {
             fetchUser(userId)
         }
-
         changeImage_Button.setBackgroundResource(R.drawable.pencil)
         changeImage_Button.setOnClickListener{
             Log.d(ChangeActivity::class.java.name,"Try to show photo")
-            var intent= Intent(Intent.ACTION_PICK)
+            var intent= Intent(Intent.ACTION_OPEN_DOCUMENT)
             intent.type="image/*"
             startActivityForResult(intent,0)
         }
@@ -65,14 +60,13 @@ class ChangeActivity : AppCompatActivity() {
     private fun fetchUser(userId: String){
         val ref = FirebaseDatabase.
         getInstance().getReference("/users").orderByChild("uid").equalTo(userId)
-        Log.d("ChangeActivity", "url:$ref")
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
                 Log.d("AccountActivity","getUser:${throw error.toException()}")
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d(ChangeActivity::class.java.name, snapshot.toString())
+                Log.d(ChangeActivity::class.java.name, "Utente trovato: $snapshot")
                 snapshot.children.forEach{
                     var user = it.getValue(User::class.java)
                     if(user != null){
@@ -81,7 +75,7 @@ class ChangeActivity : AppCompatActivity() {
                         mail= user.email
                     }
                 }
-                Log.d(ChangeActivity::class.java.name, photo)
+                Log.d(ChangeActivity::class.java.name,"Download URL: $photo")
                 Picasso.get().load(photo).into(accountImage_Viewer)
                 username_EditText.setText(username)
                 mail_EditText.setText(mail)
@@ -98,6 +92,7 @@ class ChangeActivity : AppCompatActivity() {
             confirmPassword_EditText.text.isNotEmpty()){
             if(newPassword_EditText.text.toString() == confirmPassword_EditText.text.toString()){
                 if(user != null && user.email != null) {
+
                     val credential = EmailAuthProvider
                         .getCredential(user.email!!,oldpassword_EditText.text.toString())
 
@@ -107,13 +102,38 @@ class ChangeActivity : AppCompatActivity() {
                                 user?.updatePassword(newPassword_EditText.text.toString())
                                     ?.addOnCompleteListener{task ->
                                         if(task.isSuccessful){
+                                            //update email
+                                            if(mail_EditText.text.toString() != null) {
+                                                user?.reauthenticate(credential)
+                                                    ?.addOnCompleteListener {
+                                                        Log.d(ChangeActivity::class.java.name,"Updating password: "+it.toString())
+                                                        if (it.isSuccessful) {
+                                                            user?.updateEmail(mail_EditText.text.toString())
+                                                                ?.addOnCompleteListener { task ->
+                                                                    if (task.isSuccessful) {
+                                                                        uploadNewImageToFireBase()
+                                                                        Toast.makeText(
+                                                                            this,
+                                                                            "Mail changed",
+                                                                            Toast.LENGTH_LONG
+                                                                        ).show()
+                                                                    }
+                                                                }
+                                                        }else{
+                                                            Toast.makeText(
+                                                                this,
+                                                                "Mail not changed",
+                                                                Toast.LENGTH_LONG
+                                                            ).show()
+                                                            uploadNewImageToFireBase()
+                                                        }
+                                                    }
+                                            }
                                             Toast.makeText(this, "Password changed", Toast.LENGTH_LONG).show()
+                                        }else{
+                                            Toast.makeText(this, "Password not changed", Toast.LENGTH_LONG).show()
                                         }
                                     }
-                                Toast.makeText(this, "Re-authentication success", Toast.LENGTH_LONG).show()
-                                finish()
-                            }else{
-                                Toast.makeText(this, "Re-authentication failed ", Toast.LENGTH_LONG).show()
                             }
                         }
                 }
@@ -124,28 +144,7 @@ class ChangeActivity : AppCompatActivity() {
             Toast.makeText(this, "Please enter all fields!!", Toast.LENGTH_LONG).show()
         }
 
-        user=auth.currentUser
-        //update email
-        if(mail_EditText.text.toString() != null){
-            val credential = EmailAuthProvider
-                .getCredential(mail_EditText.text.toString(),newPassword_EditText.text.toString())
-
-            user?.reauthenticate(credential)
-                ?.addOnCompleteListener {
-                if(it.isSuccessful){
-                    user?.updateEmail(mail_EditText.text.toString())
-                        ?.addOnCompleteListener{ task ->
-                            if(task.isSuccessful) {
-                                Toast.makeText(this, "Mail changed", Toast.LENGTH_LONG).show()
-                            }
-                        }
-                }else{
-                    Toast.makeText(this, "Mail not changed", Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-
-        val userId = FirebaseAuth.getInstance().uid
+        val userId = user?.uid
         //Update username and email in DB
         if(username_EditText.text.toString() == null){
             Toast.makeText(this, "Please enter all fields", Toast.LENGTH_LONG).show()
@@ -153,13 +152,14 @@ class ChangeActivity : AppCompatActivity() {
         }
 
         val refUpdating = FirebaseDatabase.getInstance().getReference("/users/$userId")
-        refUpdating.child("email").setValue(user?.email)
+        refUpdating.child("email").setValue(mail_EditText.text.toString())
         refUpdating.child("username").setValue(username_EditText.text.toString())
 
         val intentHome= Intent(this,HomeActivity::class.java)
         //Do not turn back after registration success
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intentHome)
+        finish()
 
     }
 
@@ -185,21 +185,37 @@ class ChangeActivity : AppCompatActivity() {
         addOnSuccessListener {
             Log.d(ChangeActivity::class.java.name, "File deleted")
         }.addOnFailureListener {
-                Log.d(ChangeActivity::class.java.name, "Error in file elimination")
-            }
+            Log.d(ChangeActivity::class.java.name, "Error in file elimination")
+        }
 
         val filename = UUID.randomUUID().toString()
-
         val uploadRef = FirebaseStorage.getInstance().getReference("/images/$filename")
-        uploadRef.putFile(selectedPhotoUri!!)         //At this point in code selectedPhotoUri is never null
+        uploadRef.putFile(selectedPhotoUri!!)                    //At this point in code selectedPhotoUri is never null
             .addOnSuccessListener {
                 Log.d(ChangeActivity::class.java.name, "Image stored")
-                ref.downloadUrl.addOnSuccessListener {
-                    Log.d(RegistrationActivity::class.java.name, it.toString())
+                Toast.makeText(this@ChangeActivity,"File stored",Toast.LENGTH_LONG).show()
+                uploadRef.downloadUrl.addOnSuccessListener {
+                    Log.d(RegistrationActivity::class.java.name, "Success:$it")
+                    updateRealTimeDB(it.toString())
                 }
+
             }.addOnFailureListener{
                 Log.d(ChangeActivity::class.java.name, "Image not stored")
                 Toast.makeText(this,"Failed",Toast.LENGTH_LONG).show()
             }
     }
+
+    private fun updateRealTimeDB(toString: String) {
+        val userId= FirebaseAuth.getInstance().uid
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$userId")
+        ref.child("profileImageUrl").setValue(toString)
+        Log.d(ChangeActivity::class.java.name,"Image Changed")
+        val intentHome= Intent(this,HomeActivity::class.java)
+        //Do not turn back after registration success
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intentHome)
+        finish()
+    }
+
+
 }

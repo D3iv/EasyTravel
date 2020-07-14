@@ -17,7 +17,7 @@
         android:layout_marginBottom="16dp"
         app:civ_border_width="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="20dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -25,8 +25,8 @@
             android:id="@+id/city_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="35dp"
             android:layout_toRightOf="@+id/cityPic_view"
             android:text="TextView"
             android:textSize="25sp"
@@ -43,5 +43,18 @@
             android:layout_toRightOf="@+id/cityPic_view"
             android:text="TextView" />
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="300dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="190dp"
+            android:layout_marginEnd="50dp"
+            android:background="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.454"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </RelativeLayout>
+
 </androidx.cardview.widget.CardView>
