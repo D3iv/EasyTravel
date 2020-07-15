@@ -46,10 +46,8 @@ class CommentMealsActivity : AppCompatActivity() {
                        val user= it.getValue(User::class.java)
                        photoUrl = user!!.profileImageUrl
                        username = user!!.username
-
                    }
                 }
-
             })
             Log.d(CommentMealsActivity::class.java.name,"$photoUrl,$username")
             val comment=dialogView.comment_EditText.text.toString()
