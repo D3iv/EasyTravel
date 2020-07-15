@@ -48,7 +48,10 @@ class DeleteActivity : AppCompatActivity() {
                             override fun onCancelled(error: DatabaseError) {
                             }
                             override fun onDataChange(snapshot: DataSnapshot) {
-                                snapshot.ref.removeValue();
+                                snapshot.ref.removeValue()
+                                    .addOnCompleteListener {
+                                       Toast.makeText(this@DeleteActivity,"Profile deleted",Toast.LENGTH_LONG).show()
+                                    }
                             }
                         })
                         Log.d(DeleteActivity::class.java.name,"Account deleted")

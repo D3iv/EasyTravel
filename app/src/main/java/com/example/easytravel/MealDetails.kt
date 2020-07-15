@@ -74,7 +74,6 @@ class MealDetails : AppCompatActivity(), OnMapReadyCallback {
             val intentComment = Intent(this,CommentMealsActivity::class.java)
             intentComment.putExtra("cityName",cityName)
             intentComment.putExtra("mealName",typicalMeal.name)
-
             startActivity(intentComment)
         }
     }
@@ -103,13 +102,13 @@ class MealDetails : AppCompatActivity(), OnMapReadyCallback {
 
     private fun fetchReviews(name: String) {
         val refReviews = FirebaseDatabase.getInstance()
-            .reference.child("/city/$cityName/Typical Meals").orderByChild("nome").equalTo(name)
+            .reference.child("/review").orderByChild("nome").equalTo(name)
         refReviews.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d(MealDetails::class.java.name, "dasfafsafasfdafad  $snapshot")
+                Log.d(MealDetails::class.java.name, "$snapshot")
                 val adapter = GroupAdapter<ViewHolder>()
                 snapshot.children.forEach {
                     val review = it.getValue(Review::class.java)

@@ -3,6 +3,7 @@ package com.example.easytravel
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
@@ -16,6 +17,9 @@ import kotlinx.android.synthetic.main.activity_comment.view.*
 class CommentMealsActivity : AppCompatActivity() {
     private lateinit var cityName: String
     private lateinit var name: String
+    private lateinit var photoUrl: String
+    private lateinit var username: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         cityName=intent.getStringExtra("cityName")
@@ -28,38 +32,31 @@ class CommentMealsActivity : AppCompatActivity() {
 
         val mAlertDialog = dialog.show()
         dialogView.publish_button.setOnClickListener {
-            mAlertDialog.dismiss()
-
-            val comment=dialogView.comment_EditText.text.toString()
-
-            val refReviews = FirebaseDatabase.getInstance()
-                .getReference("/city/$cityName/Typical Meals/$name")
 
             val uid= FirebaseAuth.getInstance().uid
-            val ref = FirebaseDatabase.getInstance().getReference("/users").orderByChild("uid").equalTo(uid)
-            var photoUrl: String? = null
-            var username: String? = null
+            val ref = FirebaseDatabase.getInstance().getReference("users").orderByChild("uid").equalTo(uid)
             ref.addListenerForSingleValueEvent(object: ValueEventListener{
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Log.d(CommentMealsActivity::class.java.name,"AAAAAAAAAAAAAAAAAA: $it")
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
                    snapshot.children.forEach{
+                       Log.d(CommentMealsActivity::class.java.name,"AAAAAAAAAAAAAAAAAA: $it")
                        val user= it.getValue(User::class.java)
-                       photoUrl = user?.profileImageUrl
-                       username = user?.username
+                       photoUrl = user!!.profileImageUrl
+                       username = user!!.username
+
                    }
                 }
 
             })
+            Log.d(CommentMealsActivity::class.java.name,"$photoUrl,$username")
+            val comment=dialogView.comment_EditText.text.toString()
+            val review = Review(comment,name,username,photoUrl)
 
-            val review = username?.let { it1 -> photoUrl?.let { it2 ->
-                Review(comment,name, it1,
-                    it2
-                )
-            } }
-            refReviews.setValue(review)
+            val refAddReviews = FirebaseDatabase.getInstance().getReference("/review/$uid")
+            refAddReviews.setValue(review)
                 .addOnSuccessListener {
                     Toast.makeText(this,"Comment added",Toast.LENGTH_LONG).show()
                     val intentComment= Intent(this,HomeActivity::class.java)
@@ -71,6 +68,7 @@ class CommentMealsActivity : AppCompatActivity() {
                     Toast.makeText(this,"Failed to save on DB", Toast.LENGTH_LONG).show()
                     finish()
                 }
+            mAlertDialog.dismiss()
         }
     }
 }

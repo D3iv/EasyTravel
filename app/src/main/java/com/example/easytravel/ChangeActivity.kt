@@ -40,7 +40,7 @@ class ChangeActivity : AppCompatActivity() {
         if (userId != null) {
             fetchUser(userId)
         }
-        changeImage_Button.setBackgroundResource(R.drawable.pencil)
+
         changeImage_Button.setOnClickListener{
             Log.d(ChangeActivity::class.java.name,"Try to show photo")
             var intent= Intent(Intent.ACTION_OPEN_DOCUMENT)
