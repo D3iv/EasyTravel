@@ -34,21 +34,21 @@ class CommentMealsActivity : AppCompatActivity() {
         dialogView.publish_button.setOnClickListener {
 
             val uid= FirebaseAuth.getInstance().uid
-            val ref = FirebaseDatabase.getInstance().getReference("users").orderByChild("uid").equalTo(uid)
-            ref.addListenerForSingleValueEvent(object: ValueEventListener{
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d(CommentMealsActivity::class.java.name,"AAAAAAAAAAAAAAAAAA: $it")
-                }
+            val ref = FirebaseDatabase.getInstance().getReference("/users").orderByChild("uid").equalTo(uid)
+                ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.d(CommentMealsActivity::class.java.name, "Error: $it")
+                    }
 
-                override fun onDataChange(snapshot: DataSnapshot) {
-                   snapshot.children.forEach{
-                       Log.d(CommentMealsActivity::class.java.name,"AAAAAAAAAAAAAAAAAA: $it")
-                       val user= it.getValue(User::class.java)
-                       photoUrl = user!!.profileImageUrl
-                       username = user!!.username
-                   }
-                }
-            })
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        snapshot.children.forEach {
+                            Log.d(CommentMealsActivity::class.java.name, "User Profile: $it")
+                            val user = it.getValue(User::class.java)
+                            photoUrl = user!!.profileImageUrl
+                            username = user!!.username
+                        }
+                    }
+                })
             Log.d(CommentMealsActivity::class.java.name,"$photoUrl,$username")
             val comment=dialogView.comment_EditText.text.toString()
             val review = Review(comment,name,username,photoUrl)
