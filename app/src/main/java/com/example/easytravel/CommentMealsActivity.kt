@@ -31,8 +31,9 @@ class CommentMealsActivity : AppCompatActivity() {
 
         val mAlertDialog = dialog.show()
         dialogView.publish_button.setOnClickListener {
-
             val uid= FirebaseAuth.getInstance().uid
+        /*
+
             val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
                 ref.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError) {
@@ -40,15 +41,14 @@ class CommentMealsActivity : AppCompatActivity() {
                     }
 
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        snapshot.children.forEach {
                             Log.d(CommentMealsActivity::class.java.name, "User Profile: $snapshot")
                             user= snapshot.getValue(User::class.java)
-                        }
                     }
                 })
-            Log.d(CommentMealsActivity::class.java.name, "User Profile: ${user?.username}, ${user?.profileImageUrl}")
+         */
+            //Log.d(CommentMealsActivity::class.java.name, "User Profile: ${user?.username}, ${user?.profileImageUrl}")
             val comment=dialogView.comment_EditText.text.toString()
-            val review = Review(comment,name,user!!.username,user!!.profileImageUrl)
+            val review = Review(comment,uid.toString(),name)
 
             val refAddReviews = FirebaseDatabase.getInstance().getReference("/review/$uid")
             refAddReviews.setValue(review)

@@ -108,7 +108,24 @@ class SitesDetails : AppCompatActivity(), OnMapReadyCallback {
                 snapshot.children.forEach {
                     val review = it.getValue(Review::class.java)
                     if (review != null) {
-                        adapter.add(MyReviewAdapter(review))
+                        val uid = review.uid
+                        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+                        var photoUrl: String= ""
+                        var username: String=""
+                        ref.addListenerForSingleValueEvent(object: ValueEventListener{
+                            override fun onCancelled(error: DatabaseError) {
+                            }
+
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                val user = snapshot.getValue(User::class.java)
+                                if(user != null) {
+                                    photoUrl = user.profileImageUrl
+                                    username = user.username
+                                }
+                            }
+
+                        })
+                        adapter.add(MyReviewAdapter(review,photoUrl,username))
                     }
                 }
                 rating_RecyclerView.adapter=adapter
