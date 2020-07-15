@@ -31,4 +31,5 @@
     <string name="hint_rate">inserisci la tua valutazione in una parola...</string>
     <string name="publish_text">PUBBLICA</string>
     <string name="are_you_sure">Sei sicuro?</string>
+    <string name="title_activity_geolocalize">Map</string>
 </resources>

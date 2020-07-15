@@ -37,6 +37,7 @@ dependencies {
     implementation 'androidx.mediarouter:mediarouter:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
@@ -52,6 +53,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-database:6.2.1'
     implementation "com.xwray:groupie:2.1.0"
     implementation 'com.simmorsal.library:concealer_nested_scroll_view:2.0.0'
+
     dependencies {
         implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
     }

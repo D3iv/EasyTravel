@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.activity_delete.view.*
 class DeleteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.title= "Delete Account"
 
         val dialog = AlertDialog.Builder(this)
         val dialogView= layoutInflater.inflate(R.layout.activity_delete,null)
@@ -50,7 +51,7 @@ class DeleteActivity : AppCompatActivity() {
                             override fun onDataChange(snapshot: DataSnapshot) {
                                 snapshot.ref.removeValue()
                                     .addOnCompleteListener {
-                                       Toast.makeText(this@DeleteActivity,"Profile deleted",Toast.LENGTH_LONG).show()
+                                       Toast.makeText(this@DeleteActivity,"Account deleted",Toast.LENGTH_LONG).show()
                                     }
                             }
                         })

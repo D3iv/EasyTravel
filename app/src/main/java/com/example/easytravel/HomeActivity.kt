@@ -84,6 +84,10 @@ class HomeActivity : AppCompatActivity() {
                 val intentAbout = Intent(this, AboutActivity::class.java)
                 startActivity(intentAbout)
             }
+            R.id.geolocal_button ->{
+                val intentLocalize = Intent(this,GeolocalizeActivity::class.java)
+                startActivity(intentLocalize)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
