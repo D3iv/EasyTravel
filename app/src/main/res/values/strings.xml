@@ -32,4 +32,5 @@
     <string name="publish_text">PUBBLICA</string>
     <string name="are_you_sure">Sei sicuro?</string>
     <string name="title_activity_geolocalize">Map</string>
+    <string name="info_question">Vuoi informazioni sulla citta\'?</string>
 </resources>

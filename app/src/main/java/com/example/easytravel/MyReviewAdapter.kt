@@ -1,5 +1,6 @@
 package com.example.easytravel
 
+import android.util.Log
 import android.view.View
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,24 +21,9 @@ class MyReviewAdapter(val review:Review,val photoUrl: String, val name:String): 
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.comment_textView.text= "'"+review.comment+"'"
+        Log.d(MyReviewAdapter::class.java.name,"${review.uid}")
         val ref = FirebaseDatabase.getInstance().getReference("/users/${review.uid}")
-        var url: String = ""
-        var nome:String=  ""
-        ref.addListenerForSingleValueEvent(object: ValueEventListener{
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val user = snapshot.getValue(User::class.java)
-                if(user!=null) {
-                    url = user.profileImageUrl
-                    nome = user.username
-                }
-            }
-
-        })
-        viewHolder.itemView.username_textView.text= nome
-        Picasso.get().load(url).into(viewHolder.itemView.userPic_view)
+        viewHolder.itemView.username_textView.text= name
+        //Picasso.get().load(photoUrl).into(viewHolder.itemView.userPic_view)
     }
 }
