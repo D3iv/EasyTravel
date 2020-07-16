@@ -36,7 +36,7 @@ class GeolocalizeActivity : AppCompatActivity(), OnMapReadyCallback {
 
         try {
             // Request location updates
-            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0L,0f,locationListener)
+            //locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0L,0f,locationListener)
         } catch(ex: SecurityException) {
             Log.d("myTag", "Security Exception, no location available")
         }
