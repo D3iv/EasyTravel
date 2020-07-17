@@ -23,8 +23,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.localization_info_layout.*
 
 class GeolocalizeActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -61,7 +59,6 @@ class GeolocalizeActivity : AppCompatActivity(), OnMapReadyCallback {
         val task: Task<Location> = mFusedLocationProviderClient.lastLocation
         task.addOnSuccessListener { p0 ->
             if(p0!= null){
-                Log.d("TAG","p0 non nullo :)")
                 Log.d(GeolocalizeActivity::class.java.name,"$p0")
                 mCurrentLocation = p0
                 val mapFragment = supportFragmentManager
@@ -116,7 +113,7 @@ class GeolocalizeActivity : AppCompatActivity(), OnMapReadyCallback {
                 //new entry for city
                     val city = snapshot.getValue(City::class.java)
                     if(city != null){
-                        doIntent()
+                        doIntent(city)
                     }else{
                         Toast.makeText(this@GeolocalizeActivity,"Nessuna informazione", Toast.LENGTH_LONG).show()
                         finish()
@@ -126,9 +123,14 @@ class GeolocalizeActivity : AppCompatActivity(), OnMapReadyCallback {
         })
     }
 
-    private fun doIntent(){
+    companion object{
+        val USER_KEY = "USER_KEY"
+    }
+
+    private fun doIntent(city: City) {
         val intent = Intent(this,CityDetails::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtra(USER_KEY,city)
         startActivity(intent)
         finish()
     }
