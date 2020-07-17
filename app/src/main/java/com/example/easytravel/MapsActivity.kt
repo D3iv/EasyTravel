@@ -21,7 +21,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_maps.*
 import java.io.IOException
 import java.security.Permission
+import java.util.*
 import java.util.jar.Manifest
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -64,8 +66,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        val geocoder = Geocoder(this, Locale.getDefault())
+        val addresses = geocoder.getFromLocation(myLatitude,myLongitude,1)
+        val address = addresses[0].getAddressLine(0)
+        val city = addresses[0].locality
         mMap.addMarker(
-            MarkerOptions().position(mylatLng).title("My location")
+            MarkerOptions().position(mylatLng).title("$city, $address")
         )
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mylatLng,10f))
 
