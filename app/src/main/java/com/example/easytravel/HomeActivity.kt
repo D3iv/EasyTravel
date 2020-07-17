@@ -35,6 +35,7 @@ class HomeActivity : AppCompatActivity() {
                 val ref = FirebaseDatabase.getInstance()
                     .getReference("/city")
                     .orderByChild("name").equalTo(cityName)
+
                 ref.addListenerForSingleValueEvent(object: ValueEventListener{
                     override fun onCancelled(error: DatabaseError) {
                         Toast.makeText(this@HomeActivity,"Nothing found",Toast.LENGTH_LONG).show()
@@ -47,6 +48,8 @@ class HomeActivity : AppCompatActivity() {
                             val city = it.getValue(City::class.java)
                             if(city != null) {
                                 adapter.add(MyAdapter(city))
+                            }else{
+                                fetchRegion(cityName)
                             }
                         }
                         //Click on items to see details
@@ -157,5 +160,72 @@ class HomeActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun fetchRegion(region: String){
+        val refRegion = FirebaseDatabase.getInstance()
+            .getReference("/city")
+            .orderByChild("region").equalTo(region)
+        Toast.makeText(this,"$region",Toast.LENGTH_LONG).show()
+
+        refRegion.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@HomeActivity,"Nothing found",Toast.LENGTH_LONG).show()
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val adapter = GroupAdapter<ViewHolder>()
+                //new entry for city
+                snapshot.children.forEach{
+                    val city = it.getValue(City::class.java)
+                    if(city != null) {
+                        adapter.add(MyAdapter(city))
+                    }else{
+                        fetchCountry(region)
+                    }
+                }
+                //Click on items to see details
+                adapter.setOnItemClickListener{item, view ->
+                    val myAdapter = item as MyAdapter
+                    val intent = Intent(view.context,CityDetails::class.java)
+                    intent.putExtra(USER_KEY,myAdapter.city)
+                    startActivity(intent)
+                }
+                listView_recyclerView.adapter= adapter
+            }
+        })
+    }
+
+    private fun fetchCountry(country: String){
+        val refCountry = FirebaseDatabase.getInstance()
+            .getReference("/city")
+            .orderByChild("country").equalTo(country)
+
+        refCountry.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@HomeActivity,"Nothing found",Toast.LENGTH_LONG).show()
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val adapter = GroupAdapter<ViewHolder>()
+                //new entry for city
+                snapshot.children.forEach{
+                    val city = it.getValue(City::class.java)
+                    if(city != null) {
+                        adapter.add(MyAdapter(city))
+                    }
+                }
+                //Click on items to see details
+                adapter.setOnItemClickListener{item, view ->
+                    val myAdapter = item as MyAdapter
+                    val intent = Intent(view.context,CityDetails::class.java)
+                    intent.putExtra(USER_KEY,myAdapter.city)
+                    startActivity(intent)
+                }
+                listView_recyclerView.adapter= adapter
+            }
+        })
+
+
     }
 }
