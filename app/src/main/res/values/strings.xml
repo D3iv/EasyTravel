@@ -33,4 +33,11 @@
     <string name="are_you_sure">Sei sicuro?</string>
     <string name="title_activity_geolocalize">Map</string>
     <string name="info_question">Vuoi informazioni sulla citta\'?</string>
+    <string name="alert_message">Confermando cancellerai il tuo profilo dal sistema e le tue credenziali non saranno più valide per l\'accesso</string>
+    <string name="si">SI</string>
+    <string name="registration_placeHolder">Registrati ora!</string>
+    <string name="login_link">Hai gia\' un account?</string>
+    <string name="register_button">REGISTRATI</string>
+    <string name="photo_hint">AGGIUNGI FOTO</string>
+    <string name="registration_text">Non hai un account? Registrati!</string>
 </resources>

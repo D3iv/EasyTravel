@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_account.view.username_textView
 import kotlinx.android.synthetic.main.attribute_layout.view.*
 import kotlinx.android.synthetic.main.user_list_layout.view.*
 
-class MyReviewAdapter(val review:Review,val photoUrl: String, val name:String): Item<ViewHolder>() {
+class MyReviewAdapter(val review:Review): Item<ViewHolder>() {
     override fun getLayout(): Int {
         Log.d(MyReviewAdapter::class.java.name,"UID:  ${review.uid}")
         return R.layout.user_list_layout

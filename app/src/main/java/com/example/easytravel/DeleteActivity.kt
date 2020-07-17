@@ -36,38 +36,24 @@ class DeleteActivity : AppCompatActivity() {
         dialog.setCancelable(false)
         dialogView.btn_yes.setOnClickListener {
             val user = FirebaseAuth.getInstance().currentUser
-            user?.delete()
-                ?.addOnCompleteListener{ task ->
-                    if(task.isSuccessful){
-                        val uid = FirebaseAuth.getInstance().uid
-
-                        val ref = FirebaseDatabase
-                            .getInstance().getReference("/user")
-                            .child("$uid")
-
-                        ref.addListenerForSingleValueEvent(object: ValueEventListener{
-                            override fun onCancelled(error: DatabaseError) {
-                            }
-                            override fun onDataChange(snapshot: DataSnapshot) {
-                                snapshot.ref.removeValue()
-                                    .addOnCompleteListener {
-                                       Toast.makeText(this@DeleteActivity,"Account deleted",Toast.LENGTH_LONG).show()
-                                    }
-                            }
-                        })
-                        Log.d(DeleteActivity::class.java.name,"Account deleted")
-                        val intent = Intent(this,RegistrationActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        startActivity(intent)
-                        finish()
-                    }
+            user?.delete()?.addOnCompleteListener {task: Task<Void> ->
+                if(task.isSuccessful){
+                    Toast.makeText(this,"Account Deleted",Toast.LENGTH_LONG).show()
+                    val intent= Intent(this,RegistrationActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                    finish()
+                }else{
+                    Toast.makeText(this,"ERROR: ${task.exception}",Toast.LENGTH_LONG).show()
                 }
+            }
         }
         dialogView.btn_no.setOnClickListener {
             val intent = Intent(this,AccountActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
+        val alertDialog = dialog.create()
         dialog.show()
     }
 }
