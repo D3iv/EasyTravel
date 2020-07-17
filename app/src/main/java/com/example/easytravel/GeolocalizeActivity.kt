@@ -1,19 +1,15 @@
 package com.example.easytravel
 
 import android.Manifest
-import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
-import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.*
-import androidx.core.content.ContextCompat
 import com.google.android.gms.location.*
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -22,25 +18,31 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
-import java.util.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.localization_info_layout.*
 
 class GeolocalizeActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mCurrentLocation : Location
     private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
     private val REQUEST_CODE_LOCATION_PERIMISSION = 1
-    private lateinit var mylatLng: LatLng
     private lateinit var mMap: GoogleMap
+    private lateinit var mLatLang: LatLng
+    private lateinit var mCity: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.localization_info_layout)
-
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         fetchLastLocation()
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
+        cityLink_textView.setOnClickListener { fetchCityFromDB(mCity) }
     }
 
     private fun fetchLastLocation() {
@@ -55,21 +57,18 @@ class GeolocalizeActivity : AppCompatActivity(), OnMapReadyCallback {
             requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),REQUEST_CODE_LOCATION_PERIMISSION)
             return
         }
-        val task: Task<Location> =
-            mFusedLocationProviderClient.lastLocation
-        task.addOnSuccessListener(object: OnSuccessListener<Location>{
-            override fun onSuccess(p0: Location?) {
-               if(p0!= null){
-                   mCurrentLocation = p0
-                   Log.d("GeolocalizeActivity","ACTUAL POSITION: $mylatLng")
-                   Toast.makeText(this@GeolocalizeActivity,"position found",Toast.LENGTH_LONG).show()
-                   val mapFragment = supportFragmentManager
-                       .findFragmentById(R.id.clientLocation_map) as SupportMapFragment
-                   mapFragment.getMapAsync(this@GeolocalizeActivity)
-               }
-            }
 
-        })
+        val task: Task<Location> = mFusedLocationProviderClient.lastLocation
+        task.addOnSuccessListener { p0 ->
+            if(p0!= null){
+                Log.d("TAG","p0 non nullo :)")
+                Log.d(GeolocalizeActivity::class.java.name,"$p0")
+                mCurrentLocation = p0
+                val mapFragment = supportFragmentManager
+                    .findFragmentById(R.id.map) as SupportMapFragment
+                mapFragment.getMapAsync(this@GeolocalizeActivity)
+            }
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -87,17 +86,50 @@ class GeolocalizeActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap){
         mMap = googleMap
-        val latLang = LatLng(mCurrentLocation.latitude,mCurrentLocation.longitude)
-        Log.d(GeolocalizeActivity::class.java.name,"ACTUAL POSITION: $mylatLng")
+        mLatLang = LatLng(mCurrentLocation.latitude,mCurrentLocation.longitude)
+        Toast.makeText(this@GeolocalizeActivity,"position found",Toast.LENGTH_LONG).show()
+        val geocoder = Geocoder(this@GeolocalizeActivity)
+        val addresses = geocoder.getFromLocation(mCurrentLocation.latitude,mCurrentLocation.longitude,1)
+        val address = addresses[0].getAddressLine(0)
+        mCity = addresses[0].locality
+        cityLink_placeHolder.text = "Ti trovi qui: $mCity"
         mMap.addMarker(
-            MarkerOptions().position(latLang).title("")
+            MarkerOptions().position(mLatLang).title("$mCity, $address")
         )
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mylatLng,10f))
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLatLang,15f))
 
         mMap.isMyLocationEnabled
         mMap.uiSettings.isZoomControlsEnabled
         mMap.uiSettings.isMapToolbarEnabled
         mMap.uiSettings.isCompassEnabled
         mMap.uiSettings.isZoomGesturesEnabled
+    }
+
+    private fun fetchCityFromDB(mCity: String) {
+        val ref = FirebaseDatabase.getInstance().getReference("/city/$mCity")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@GeolocalizeActivity,"ERROR:${error}",Toast.LENGTH_LONG).show()
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                //new entry for city
+                    val city = snapshot.getValue(City::class.java)
+                    if(city != null){
+                        doIntent()
+                    }else{
+                        Toast.makeText(this@GeolocalizeActivity,"Nessuna informazione", Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+            }
+
+        })
+    }
+
+    private fun doIntent(){
+        val intent = Intent(this,CityDetails::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
     }
 }

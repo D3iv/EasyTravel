@@ -31,7 +31,11 @@
 
         <activity
             android:name=".GeolocalizeActivity"
-            android:label="@string/title_activity_geolocalize"></activity>
+            android:label="@string/title_activity_geolocalize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HomeActivity" />
+        </activity>
         <activity android:name=".CommentMealsActivity" />
         <activity android:name=".SitesDetails">
             <meta-data

@@ -12,15 +12,15 @@
         android:id="@+id/search_editText"
         android:layout_width="283dp"
         android:layout_height="51dp"
+        android:background="@color/cardview_light_background"
         android:hint="@string/search"
         android:padding="10dp"
-        android:background="@color/cardview_light_background"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintHorizontal_bias="0.125"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.479" />
+        app:layout_constraintVertical_bias="0.151" />
 
     <Button
         android:id="@+id/search_button"
@@ -29,16 +29,16 @@
         android:background="@drawable/ic_baseline_search_24"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.563"
+        app:layout_constraintHorizontal_bias="0.328"
         app:layout_constraintStart_toEndOf="@+id/search_editText"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.465" />
+        app:layout_constraintVertical_bias="0.187" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="240dp"
         android:background="@color/cardview_light_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +48,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listView_recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="460dp"
+            android:background="@color/colorPrimary"
             android:outlineAmbientShadowColor="@color/mr_cast_meta_black_scrim"
             android:outlineSpotShadowColor="@color/mr_cast_meta_black_scrim"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -56,4 +57,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/list_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/comment_layout"
+        android:text="@string/list_button"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_editText"
+        app:layout_constraintVertical_bias="0.488" />
 </androidx.constraintlayout.widget.ConstraintLayout>

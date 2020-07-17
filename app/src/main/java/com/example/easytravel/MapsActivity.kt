@@ -66,12 +66,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        val geocoder = Geocoder(this, Locale.getDefault())
+        val geocoder = Geocoder(this)
         val addresses = geocoder.getFromLocation(myLatitude,myLongitude,1)
-        val address = addresses[0].getAddressLine(0)
         val city = addresses[0].locality
         mMap.addMarker(
-            MarkerOptions().position(mylatLng).title("$city, $address")
+            MarkerOptions().position(mylatLng).title("$city")
         )
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mylatLng,10f))
 

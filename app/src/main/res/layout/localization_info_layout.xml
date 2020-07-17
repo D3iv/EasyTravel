@@ -6,10 +6,9 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/CityLink_placeHolder"
+        android:id="@+id/cityLink_placeHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ti trovi qui:"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/map">
 
         <TextView
-            android:id="@+id/CityLink_textView"
+            android:id="@+id/cityLink_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/info_question" />

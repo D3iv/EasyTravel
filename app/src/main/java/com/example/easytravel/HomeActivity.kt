@@ -25,6 +25,10 @@ class HomeActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intentReg)
         }
+
+        list_button.setOnClickListener {
+            fetchData()
+        }
         search_button.setOnClickListener {
             if(search_editText.text != null) {
                 val cityName = search_editText.text.toString()
