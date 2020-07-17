@@ -49,13 +49,15 @@
 
     <RelativeLayout
         android:id="@+id/register_fields"
-        android:layout_width="384dp"
-        android:layout_height="195dp"
+        android:layout_width="350dp"
+        android:layout_height="170dp"
         android:layout_marginTop="20dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/comment_layout"
         android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.592"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ImageButton"
-        tools:layout_editor_absoluteX="13dp"
         tools:ignore="MissingConstraints">
 
         <EditText
@@ -64,8 +66,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="32dp"
+            android:textColorLink="@color/colorPrimaryDark"
             android:background="@drawable/rounded_editext_login"
             android:hint="name..."
             android:padding="5sp"
@@ -81,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/name_textView"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/rounded_editext_login"
             android:hint="e-mail..."
@@ -97,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/mailLog_textView"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/rounded_editext_login"
             android:hint="password..."
@@ -109,12 +112,13 @@
             app:layout_constraintTop_toBottomOf="@+id/mailLog_textView" />
     </RelativeLayout>
 
+
     <TextView
         android:id="@+id/linkLog_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="32dp"
         android:text="@string/login_link"
         android:textAlignment="center"
@@ -126,17 +130,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reg_Button" />
 
-
     <Button
         android:id="@+id/reg_Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:padding="5dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/rounded_button"
+        android:padding="5dp"
         android:text="@string/register_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_fields" />
 

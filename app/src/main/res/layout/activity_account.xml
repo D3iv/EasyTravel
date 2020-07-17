@@ -101,24 +101,4 @@
         tools:layout_editor_absoluteX="16dp"
         tools:ignore="MissingConstraints" />
 
-    <Switch
-        android:id="@+id/saveBio_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="12dp"
-        android:key="pref_remember_value"
-        app:layout_constraintStart_toEndOf="@+id/savebio_placeholedr_textView"
-        app:layout_constraintTop_toBottomOf="@+id/deleteAccount_textView" />
-
-    <TextView
-        android:id="@+id/savebio_placeholedr_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Salva i dati per l'autenticazione"
-        app:layout_constraintTop_toBottomOf="@+id/deleteAccount_textView"
-        tools:layout_editor_absoluteX="16dp"
-        tools:ignore="MissingConstraints" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
