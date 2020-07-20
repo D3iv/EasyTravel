@@ -22,7 +22,7 @@ class CommentMealsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         cityName=intent.getStringExtra("cityName")
-        name = intent.getStringExtra("mealName")
+        name = intent.getStringExtra("mName")
 
         val dialog = AlertDialog.Builder(this)
         val dialogView= layoutInflater.inflate(R.layout.activity_comment,null)

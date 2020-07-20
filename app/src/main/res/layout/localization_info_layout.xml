@@ -33,9 +33,10 @@
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/map">
 
-        <TextView
+        <Button
             android:id="@+id/cityLink_textView"
             android:layout_width="match_parent"
+            android:background="@drawable/rounded_button"
             android:layout_height="wrap_content"
             android:text="@string/info_question" />
 

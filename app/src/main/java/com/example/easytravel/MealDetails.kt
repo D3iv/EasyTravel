@@ -73,7 +73,7 @@ class MealDetails : AppCompatActivity(), OnMapReadyCallback {
         comment_Button.setOnClickListener{
             val intentComment = Intent(this,CommentMealsActivity::class.java)
             intentComment.putExtra("cityName",cityName)
-            intentComment.putExtra("mealName",typicalMeal.name)
+            intentComment.putExtra("mName",typicalMeal.name)
             startActivity(intentComment)
         }
     }

@@ -72,7 +72,7 @@ class SitesDetails : AppCompatActivity(), OnMapReadyCallback {
         comment_Button.setOnClickListener{
             val intentComment = Intent(this,CommentMealsActivity::class.java)
             intentComment.putExtra("cityName",cityName)
-            intentComment.putExtra("siteName",site.name)
+            intentComment.putExtra("mName",site.name)
             startActivity(intentComment)
         }
 
@@ -97,7 +97,7 @@ class SitesDetails : AppCompatActivity(), OnMapReadyCallback {
 
     private fun fetchReviews(name: String) {
         val refReviews = FirebaseDatabase.getInstance()
-            .reference.child("/city/$cityName/Tourist sites").orderByChild("nome").equalTo(name)
+            .reference.child("/review").orderByChild("nome").equalTo(name)
         refReviews.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
             }
